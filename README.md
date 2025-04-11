@@ -36,9 +36,17 @@ java -jar .\artifacts\aqa-shop.jar
 ```
 Для работы через ```PostgreSQL``` необходимо ввести команду:
 ```
-java -jar .\artifacts\aqa-shop.jar --spring.datasource.url=jdbc:postgresql://localhost:5432/app
+java -jar .\artifacts\aqa-shop.jar --spring.datasource.url=jdbc:postgresql://localhost:5432/app  
+или
+java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar artifacts/aqa-shop.jar 
 
 ```
+
+Первый вариант - передает аргументы непосредственно приложению Spring Boot через его командную строку, то есть Spring сам интерпретирует эти параметры и применяет их к своей конфигурации.
+
+Второй вариант - конфигурация передается через параметр JVM (-D), который устанавливает значение переменной окружения Spring Boot до запуска приложения.
+
+
 4. Запуск тестов осуществляется с помощью команды в консоли:
 
 Для ```MySQL```:
