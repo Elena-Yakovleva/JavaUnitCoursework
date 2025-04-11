@@ -4,11 +4,11 @@
 
 Задача автоматизировать позитивные и негативные сценарии покупки тура. 
 
-#### [План]()
+#### [План](https://github.com/Elena-Yakovleva/JavaUnitCoursework/blob/main/documents/Plan.md)
 
-#### [Тесты]()
+#### [Итоги тестирования](https://github.com/Elena-Yakovleva/JavaUnitCoursework/blob/main/documents/Report.md)
 
-#### [Репорты]()
+#### [Итоги автоматизации](https://github.com/Elena-Yakovleva/JavaUnitCoursework/blob/main/documents/Summary.md)
 
 #### Шаги воспроизведения
 
