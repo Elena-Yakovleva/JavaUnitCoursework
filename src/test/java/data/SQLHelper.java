@@ -12,7 +12,8 @@ public class SQLHelper {
 
     private static final QueryRunner runner = new QueryRunner();
 
-    private SQLHelper() {}
+    private SQLHelper() {
+    }
 
 
     private static Connection getConnection() throws SQLException {
@@ -39,14 +40,12 @@ public class SQLHelper {
 
     @SneakyThrows
     public static void cleanDataBase() {
-        try (var conn = getConnection()){
+        try (var conn = getConnection()) {
             runner.execute(conn, "DELETE FROM payment_entity");
             runner.execute(conn, "DELETE FROM credit_request_entity");
             runner.execute(conn, "DELETE FROM order_entity");
 
         }
     }
-
-
 
 }

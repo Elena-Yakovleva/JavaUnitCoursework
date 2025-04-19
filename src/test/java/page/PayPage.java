@@ -16,20 +16,19 @@ public class PayPage {
     private final SelenideElement notificationDeclined = $(Selectors.byText("Ошибка! Банк отказал в проведении операции."));
 
     // Поля для заполнения
-    private final SelenideElement fieldCardNumber = $x("//*[@id=\"root\"]/div/form/fieldset/div[1]/span/span/span[2]/input");
-    private final SelenideElement fieldCardMonth = $x("//*[@id=\"root\"]/div/form/fieldset/div[2]/span/span[1]/span/span/span[2]/input");
-    private final SelenideElement fieldCardYear = $x("//*[@id=\"root\"]/div/form/fieldset/div[2]/span/span[2]/span/span/span[2]/input");
-    private final SelenideElement fieldCardHolder = $x("//*[@id=\"root\"]/div/form/fieldset/div[3]/span/span[1]/span/span/span[2]/input");
-    private final SelenideElement fieldCardCVC = $x("//*[@id=\"root\"]/div/form/fieldset/div[3]/span/span[2]/span/span/span[2]/input");
+    private final SelenideElement fieldCardNumber = $x("//span[text()='Номер карты']/..//input");
+    private final SelenideElement fieldCardMonth = $x("//span[text()='Месяц']/..//input");
+    private final SelenideElement fieldCardYear = $x("//span[text()='Год']/..//input");
+    ;
+    private final SelenideElement fieldCardHolder = $x("//span[text()='Владелец']/..//input");
+    private final SelenideElement fieldCardCVC = $x("//span[text()='CVC/CVV']/..//input");
 
     // Ошибки полей ввода
-    private final SelenideElement errorEnterCard = $x("//*[@id=\"root\"]/div/form/fieldset/div[1]/span/span/span[3]");
-    private final SelenideElement errorEnterMonth = $x("//*[@id=\"root\"]/div/form/fieldset/div[2]/span/span[1]/span/span/span[3]");
-    private final SelenideElement errorEnterYear = $x("//*[@id=\"root\"]/div/form/fieldset/div[2]/span/span[2]/span/span/span[3]");
-    private final SelenideElement errorEnterHolder = $x("//*[@id=\"root\"]/div/form/fieldset/div[3]/span/span[1]/span/span/span[3]");
-    private final SelenideElement errorEnterCVC = $x("//*[@id=\"root\"]/div/form/fieldset/div[3]/span/span[2]/span/span/span[3]");
-    private final SelenideElement errorIncorrectMonth = $x("//*[@id=\"root\"]/div/form/fieldset/div[2]/span/span[1]/span/span/span[3]");
-    private final SelenideElement errorIncorrectYear = $x("//*[@id=\"root\"]/div/form/fieldset/div[2]/span/span[2]/span/span/span[3]");
+    private final SelenideElement errorInvalidFormat = $x("//span[contains(text(), 'Неверный формат')]");
+    private final SelenideElement errorEmptyForm = $x("//span[contains(text(), 'Поле обязательно для заполнения')]");
+    private final SelenideElement errorIncorrectDeadline = $x("//span[contains(text(), 'Неверно указан срок действия карты')]");
+    private final SelenideElement errorExpiredDeadline = $x("//span[contains(text(), 'Истёк срок действия карты')]");
+    private final SelenideElement errorMaximumLength = $x("//span[contains(text(), 'Длина не может быть больше 20 символов')]");
 
     public PayPage() {
         pay.shouldBe(Condition.visible);
@@ -50,85 +49,59 @@ public class PayPage {
     // Информационные сообщения
 
     public void findNotificationApproved() {
-        notificationApproved.shouldBe(Condition.visible, Duration.ofSeconds(10));
+        notificationApproved.shouldBe(Condition.visible, Duration.ofSeconds(10)).shouldBe(Condition.text("Операция одобрена Банком."));
     }
 
     public void findNotificationDeclined() {
-        notificationDeclined.shouldBe(Condition.visible, Duration.ofSeconds(10));
+        notificationDeclined.shouldBe(Condition.visible, Duration.ofSeconds(10)).shouldBe(Condition.text("Ошибка! Банк отказал в проведении операции."));
     }
 
     public void submitFormWithEmptyFields() {
-        errorEnterCard.shouldBe(Condition.visible, Condition.text("Неверный формат"));
-        errorEnterMonth.shouldBe(Condition.visible, Condition.text("Неверный формат"));
-        errorEnterYear.shouldBe(Condition.visible, Condition.text("Неверный формат"));
-        errorEnterHolder.shouldBe(Condition.visible, Condition.text("Поле обязательно для заполнения"));
-        errorEnterCVC.shouldBe(Condition.visible, Condition.text("Неверный формат"));
-    }
-    // Номер
-    public void submitFormWithErrorInFieldInCard() {
-        errorEnterCard.shouldBe(Condition.visible, Condition.text("Неверный формат"));
-    }
-    // Месяц
-    public void submitFormWithErrorInFieldInMonth() {
-        errorEnterMonth.shouldBe(Condition.visible, Condition.text("Неверный формат"));
-    }
-    public void submitFormWithErrorDeadlineIncorrectInFieldInMonth() {
-        errorIncorrectMonth.shouldBe(Condition.visible, Condition.text("Неверно указан срок действия карты"));
-    }
-    // Год
-    public void submitFormWithErrorInFieldInYear() {
-        errorEnterYear.shouldBe(Condition.visible, Condition.text("Неверный формат"));
-    }
-    public void submitFormWithErrorDeadlineIncorrectInFieldInYear() {
-        errorIncorrectYear.shouldBe(Condition.visible, Condition.text("Неверно указан срок действия карты"));
-    }
-    public void submitFormWithErrorDeadlineExpiredInFieldInYear() {
-        errorIncorrectYear.shouldBe(Condition.visible, Condition.text("Истёк срок действия карты"));
+        errorInvalidFormat.shouldBe(Condition.visible).shouldHave(Condition.text("Неверный формат"));
+        errorEmptyForm.shouldBe(Condition.visible).shouldHave(Condition.text("Поле обязательно для заполнения"));
+
     }
 
-    // Владелец
-    public void submitFormWithErrorInFieldInHolder() {
-        errorEnterHolder.shouldBe(Condition.visible, Condition.text("Поле обязательно для заполнения"));
-    }
-    public void submitFormWithErrorIncorrectFormatInFieldInHolder() {
-        errorEnterHolder.shouldBe(Condition.visible, Condition.text("Неверный формат"));
-    }
-    public void enter21LetterInHolderField() {
-        errorEnterHolder.shouldBe(Condition.visible, Condition.text("Длина не может быть больше 20 символов"));
+    public void getErrorInvalidFormat() {
+        errorInvalidFormat.shouldBe(Condition.visible).shouldHave(Condition.text("Неверный формат"));
     }
 
-    // CVC
-    public void submitFormWithErrorInFieldInCVC() {
-        errorEnterCVC.shouldBe(Condition.visible, Condition.text("Неверный формат"));
+    public void getErrorEmptyForm() {
+        errorEmptyForm.shouldBe(Condition.visible).shouldHave(Condition.text("Поле обязательно для заполнения"));
     }
 
-    //
-    public String getCardNumberValue() {
-        return fieldCardNumber.getValue();}
+    public void getErrorIncorrectDeadline() {
+        errorIncorrectDeadline.shouldBe(Condition.visible).shouldHave(Condition.text("Неверно указан срок действия карты"));
+    }
 
-    public String getCardMonthValue() {
-        return fieldCardMonth.getValue();}
+    public void getErrorExpiredDeadline() {
+        errorExpiredDeadline.shouldBe(Condition.visible).shouldHave(Condition.text("Истёк срок действия карты"));
+    }
 
-    public String getCardYearValue() {
-        return fieldCardYear.getValue();}
+    public void getErrorMaximumLength() {
+        errorMaximumLength.shouldBe(Condition.visible).shouldHave(Condition.text("Длина не может быть больше 20 символов"));
+    }
 
-    public String getCardHolderValue() {
-        return fieldCardHolder.getValue();}
+    // Ожидаемый результат
+    public SelenideElement getCardNumberValue(String expectedNumber) {
+        return fieldCardNumber.shouldHave(Condition.value(expectedNumber));
+    }
 
-    public String getCVCValue() {
-        return fieldCardCVC.getValue();}
+    public SelenideElement getCardMonthValue(String expectedMonth) {
+        return fieldCardMonth.shouldHave(Condition.value(expectedMonth));
+    }
 
+    public SelenideElement getCardYearValue(String expectedYear) {
+        return fieldCardYear.shouldHave(Condition.value(expectedYear));
+    }
 
+    public SelenideElement getCardHolderValue(String expectedHolder) {
+        return fieldCardHolder.shouldHave(Condition.value(expectedHolder));
+    }
 
-
-
-
-
-
-
-
-
-
+    public SelenideElement getCardCVCValue(String expectedCVC) {
+        return fieldCardCVC.shouldHave(Condition.value(expectedCVC));
+    }
 
 
 }

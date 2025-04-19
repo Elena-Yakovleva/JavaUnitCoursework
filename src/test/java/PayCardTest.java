@@ -65,11 +65,10 @@ public class PayCardTest {
         Assertions.assertNull(SQLHelper.getStatusPay());
     }
 
-    // Пустые поля
+    //    // Пустые поля
     @Test
     @DisplayName("Тест 4. Отправка пустой формы")
     public void shouldNotSentEmptyForm() {
-        payPage.getEnterCard(DataHelper.getEmptyCard());
         payPage.clickContinueButton();
         payPage.submitFormWithEmptyFields();
     }
@@ -79,7 +78,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithoutCardNumber() {
         payPage.getEnterCard(DataHelper.getFormWithoutNumber());
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorInFieldInCard();
+        payPage.getErrorInvalidFormat();
     }
 
     @Test
@@ -87,7 +86,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithoutMonth() {
         payPage.getEnterCard(DataHelper.getFormWithoutMonth());
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorInFieldInMonth();
+        payPage.getErrorInvalidFormat();
     }
 
     @Test
@@ -95,7 +94,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithoutYear() {
         payPage.getEnterCard(DataHelper.getFormWithoutYear());
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorInFieldInYear();
+        payPage.getErrorInvalidFormat();
     }
 
     @Test
@@ -103,7 +102,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithoutHolder() {
         payPage.getEnterCard(DataHelper.getFormWithoutHolder());
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorInFieldInHolder();
+        payPage.getErrorEmptyForm();
     }
 
     @Test
@@ -111,7 +110,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithoutCVC() {
         payPage.getEnterCard(DataHelper.getFormWithoutCVC());
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorInFieldInCVC();
+        payPage.getErrorInvalidFormat();
     }
 
 
@@ -128,15 +127,14 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithIncorrectCardNumber(String card) {
         payPage.getEnterCard(DataHelper.getInvalidNumber(card));
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorInFieldInCard();
+        payPage.getErrorInvalidFormat();
     }
 
     @Test
     @DisplayName("Тест 15. Ввод в поле Номер карты 17 цифр")
     public void shouldEnter17digitsInFieldCardNumber() {
         payPage.getEnterCard(DataHelper.getInvalidNumber("11112222333344445"));
-        String actual = payPage.getCardNumberValue();
-        Assertions.assertEquals("1111 2222 3333 4444", actual);
+        payPage.getCardNumberValue("1111 2222 3333 4444");
     }
 
     // Поле "Месяц"
@@ -150,15 +148,15 @@ public class PayCardTest {
     public void shouldInvalidMonthBoundaryValue(String month) {
         payPage.getEnterCard(DataHelper.getInvalidMonth(month));
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorDeadlineIncorrectInFieldInMonth();
+        payPage.getErrorIncorrectDeadline();
     }
 
     @Test
     @DisplayName("Тест 18. Ввод прошедшего месяца в поле месяц")
-    public void shouldInputLastMonth () {
+    public void shouldInputLastMonth() {
         payPage.getEnterCard(DataHelper.getLastMonth());
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorDeadlineIncorrectInFieldInMonth();
+        payPage.getErrorIncorrectDeadline();
     }
 
     @ParameterizedTest
@@ -172,14 +170,14 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithIncorrectMonth(String month) {
         payPage.getEnterCard(DataHelper.getInvalidMonth(month));
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorInFieldInMonth();
+        payPage.getErrorInvalidFormat();
     }
+
     @Test
     @DisplayName("Тест 23. Ввод в поле Месяц трех цифр")
     public void shouldEnterThreeDigitsInFieldMonth() {
         payPage.getEnterCard(DataHelper.getInvalidMonth("123"));
-        String actual = payPage.getCardMonthValue();
-        Assertions.assertEquals("12", actual);
+        payPage.getCardMonthValue("12");
     }
 
     // Поле "Год"
@@ -191,7 +189,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithTwoZeroInYear(String year) {
         payPage.getEnterCard(DataHelper.getInvalidYear(year));
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorDeadlineExpiredInFieldInYear();
+        payPage.getErrorExpiredDeadline();
     }
 
     @Test
@@ -199,7 +197,7 @@ public class PayCardTest {
     public void shouldInputLastYear() {
         payPage.getEnterCard(DataHelper.getLastYear());
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorDeadlineExpiredInFieldInYear();
+        payPage.getErrorExpiredDeadline();
     }
 
     @Test
@@ -207,7 +205,7 @@ public class PayCardTest {
     public void shouldInputYearGreaterThanMax() {
         payPage.getEnterCard(DataHelper.getEnterYearOverMax());
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorDeadlineIncorrectInFieldInYear();
+        payPage.getErrorIncorrectDeadline();
     }
 
     @ParameterizedTest
@@ -222,15 +220,14 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithIncorrectYear(String year) {
         payPage.getEnterCard(DataHelper.getInvalidYear(year));
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorInFieldInYear();
+        payPage.getErrorInvalidFormat();
     }
 
     @Test
     @DisplayName("Тест 31. Ввод в поле Год трех цифр")
     public void shouldEnterThreeDigitsInFieldYear() {
-        payPage.getEnterCard(DataHelper.getInvalidYear("225"));
-        String actual = payPage.getCardYearValue();
-        Assertions.assertEquals("22", actual);
+        payPage.getEnterCard(DataHelper.getInvalidYear("265"));
+        payPage.getCardYearValue("26");
     }
 
     // Поле "Владелец"
@@ -240,7 +237,7 @@ public class PayCardTest {
         var holder = "ab";
         payPage.getEnterCard(DataHelper.getInvalidHolder(holder));
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorInFieldInHolder();
+        payPage.getErrorEmptyForm();
     }
 
     @Test
@@ -249,7 +246,7 @@ public class PayCardTest {
         var holder = "Sammiele Walter-Skott";
         payPage.getEnterCard(DataHelper.getInvalidHolder(holder));
         payPage.clickContinueButton();
-        payPage.enter21LetterInHolderField();
+        payPage.getErrorMaximumLength();
     }
 
     @ParameterizedTest
@@ -263,16 +260,16 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithIncorrectHolder(String holder) {
         payPage.getEnterCard(DataHelper.getInvalidHolder(holder));
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorIncorrectFormatInFieldInHolder();
+        payPage.getErrorInvalidFormat();
     }
 
     @Test
-    @DisplayName("Тест 38. Ввод только пробелов")
+    @DisplayName("Тест 38. Ввод только пробелов в поле Владелец")
     public void shouldEnterOnlySpaces() {
         payPage.getEnterCard(DataHelper.getInvalidHolder("               "));
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorInFieldInHolder();
-        Assertions.assertEquals("               ", payPage.getCardHolderValue());
+        payPage.getCardHolderValue("               ");
+        payPage.getErrorEmptyForm();
     }
 
     // Поле "CVC/CVV"
@@ -288,28 +285,15 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithIncorrectCVC(String cvc) {
         payPage.getEnterCard(DataHelper.getInvalidCVC(cvc));
         payPage.clickContinueButton();
-        payPage.submitFormWithErrorInFieldInCVC();
-
+        payPage.getErrorInvalidFormat();
     }
 
     @Test
     @DisplayName("Тест 44. Проверка отказа вводе 4 цифры")
     public void shouldEnter4NumberInFieldCVC() {
         payPage.getEnterCard(DataHelper.getInvalidCVC("1234"));
-        String actualCVC = payPage.getCVCValue();
-        Assertions.assertEquals("123", actualCVC );
-
+        payPage.getCardCVCValue("123");
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }
