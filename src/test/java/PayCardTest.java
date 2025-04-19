@@ -65,7 +65,7 @@ public class PayCardTest {
         Assertions.assertNull(SQLHelper.getStatusPay());
     }
 
-    //    // Пустые поля
+    // Пустые поля
     @Test
     @DisplayName("Тест 4. Отправка пустой формы")
     public void shouldNotSentEmptyForm() {
@@ -181,13 +181,11 @@ public class PayCardTest {
     }
 
     // Поле "Год"
-    @ParameterizedTest
-    @CsvSource({
-            "00"
-    })
+
+    @Test
     @DisplayName("Тест 24.  Два нуля в поле год")
-    public void shouldNotSubmitFormWithTwoZeroInYear(String year) {
-        payPage.getEnterCard(DataHelper.getInvalidYear(year));
+    public void shouldNotSubmitFormWithTwoZeroInYear() {
+        payPage.getEnterCard(DataHelper.getInvalidYear("00"));
         payPage.clickContinueButton();
         payPage.getErrorExpiredDeadline();
     }
