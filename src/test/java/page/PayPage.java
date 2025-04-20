@@ -23,12 +23,12 @@ public class PayPage {
     private final SelenideElement fieldCardCVC = $x("//fieldset/descendant::input[5]");
 
     // Ошибки полей ввода
-    private final SelenideElement errorInvalidFormat = $x("//span[contains(text(), 'Неверный формат')]");
-    private final SelenideElement errorEmptyForm = $x("//span[contains(text(), 'Поле обязательно для заполнения')]");
-    private final SelenideElement errorIncorrectDeadline = $x("//span[contains(text(), 'Неверно указан срок действия карты')]");
-    private final SelenideElement errorExpiredDeadline = $x("//span[contains(text(), 'Истёк срок действия карты')]");
-    private final SelenideElement errorMaximumLength = $x("//span[contains(text(), 'Длина не может быть больше 20 символов')]");
-    private final SelenideElement errorMinimumLength = $x("span[contains(text(), 'Длина не может быть меньше 3 символов')]");
+    private final SelenideElement errorFieldCardNumber = $x("//fieldset/descendant::input[1]/../following-sibling::span");
+    private final SelenideElement errorFieldCardMonth = $x("//fieldset/descendant::input[2]/../following-sibling::span");
+    private final SelenideElement errorFieldCardYear = $x("//fieldset/descendant::input[3]/../following-sibling::span");
+    private final SelenideElement errorFieldCardHolder = $x("//fieldset/descendant::input[4]/../following-sibling::span");
+    private final SelenideElement errorFieldCardCVC = $x("//fieldset/descendant::input[5]/../following-sibling::span");
+
 
     public PayPage() {
         pay.shouldBe(Condition.visible);
@@ -48,6 +48,22 @@ public class PayPage {
 
     // Информационные сообщения
 
+    public void findCardNumberError(String error) {
+        errorFieldCardNumber.shouldBe(Condition.visible, Condition.text(error));
+    }
+    public void findCardMonthError(String error) {
+        errorFieldCardMonth.shouldBe(Condition.visible, Condition.text(error));
+    }
+    public void findCardYearError(String error) {
+        errorFieldCardYear.shouldBe(Condition.visible, Condition.text(error));
+    }
+    public void findCardHolderError(String error) {
+        errorFieldCardHolder.shouldBe(Condition.visible, Condition.text(error));
+    }
+    public void findCardCVCError(String error) {
+        errorFieldCardCVC.shouldBe(Condition.visible, Condition.text(error));
+    }
+
     public void findNotificationApproved() {
         notificationApproved.shouldBe(Condition.visible, Duration.ofSeconds(10));
     }
@@ -56,6 +72,7 @@ public class PayPage {
         notificationDeclined.shouldBe(Condition.visible, Duration.ofSeconds(10));
     }
 
+    // Проверка пустой формы
     public void submitFormWithEmptyFields() {
         fieldCardNumber.shouldBe(Condition.empty);
         fieldCardMonth.shouldBe(Condition.empty);
@@ -64,30 +81,6 @@ public class PayPage {
         fieldCardCVC.shouldBe(Condition.empty);
     }
 
-    public void getErrorInvalidFormat() {
-        errorInvalidFormat.shouldBe(Condition.visible);
-    }
-
-    public void getErrorEmptyForm() {
-        errorEmptyForm.shouldBe(Condition.visible);
-
-    }
-
-    public void getErrorIncorrectDeadline() {
-        errorIncorrectDeadline.shouldBe(Condition.visible);
-    }
-
-    public void getErrorExpiredDeadline() {
-        errorExpiredDeadline.shouldBe(Condition.visible);
-    }
-
-    public void getErrorMaximumLength() {
-        errorMaximumLength.shouldBe(Condition.visible);
-    }
-
-    public void getErrorMinimumLength() {
-        errorMinimumLength.shouldBe(Condition.visible);
-    }
 
     // Ожидаемый результат
     public SelenideElement getCardNumberValue(String expectedNumber) {

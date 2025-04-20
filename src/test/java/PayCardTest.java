@@ -79,7 +79,9 @@ public class PayCardTest {
         payPage.getEnterCard(DataHelper.getFormWithoutNumber());
         payPage.clickContinueButton();
         payPage.getCardNumberValue("");
-        payPage.getErrorEmptyForm();
+        payPage.findCardNumberError("Поле обязательно для заполнения");
+
+//        payPage.getErrorEmptyForm();
     }
 
     @Test
@@ -88,7 +90,7 @@ public class PayCardTest {
         payPage.getEnterCard(DataHelper.getFormWithoutMonth());
         payPage.clickContinueButton();
         payPage.getCardMonthValue("");
-        payPage.getErrorEmptyForm();
+        payPage.findCardMonthError("Поле обязательно для заполнения");
     }
 
     @Test
@@ -97,7 +99,7 @@ public class PayCardTest {
         payPage.getEnterCard(DataHelper.getFormWithoutYear());
         payPage.clickContinueButton();
         payPage.getCardYearValue("");
-        payPage.getErrorEmptyForm();
+        payPage.findCardYearError("Поле обязательно для заполнения");
     }
 
     @Test
@@ -106,7 +108,7 @@ public class PayCardTest {
         payPage.getEnterCard(DataHelper.getFormWithoutHolder());
         payPage.clickContinueButton();
         payPage.getCardHolderValue("");
-        payPage.getErrorEmptyForm();
+        payPage.findCardHolderError("Поле обязательно для заполнения");
     }
 
     @Test
@@ -115,7 +117,7 @@ public class PayCardTest {
         payPage.getEnterCard(DataHelper.getFormWithoutCVC());
         payPage.clickContinueButton();
         payPage.getCardCVCValue("");
-        payPage.getErrorEmptyForm();
+        payPage.findCardCVCError("Поле обязательно для заполнения");
     }
 
 
@@ -132,7 +134,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithIncorrectCardNumber(String card) {
         payPage.getEnterCard(DataHelper.getInvalidNumber(card));
         payPage.clickContinueButton();
-        payPage.getErrorInvalidFormat();
+        payPage.findCardNumberError("Неверный формат");
     }
 
     @Test
@@ -153,7 +155,7 @@ public class PayCardTest {
     public void shouldInvalidMonthBoundaryValue(String month) {
         payPage.getEnterCard(DataHelper.getInvalidMonth(month));
         payPage.clickContinueButton();
-        payPage.getErrorIncorrectDeadline();
+        payPage.findCardMonthError("Неверно указан срок действия карты");
     }
 
     @Test
@@ -161,7 +163,7 @@ public class PayCardTest {
     public void shouldInputLastMonth() {
         payPage.getEnterCard(DataHelper.getLastMonth());
         payPage.clickContinueButton();
-        payPage.getErrorIncorrectDeadline();
+        payPage.findCardMonthError("Неверно указан срок действия карты");
     }
 
     @ParameterizedTest
@@ -175,7 +177,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithIncorrectMonth(String month) {
         payPage.getEnterCard(DataHelper.getInvalidMonth(month));
         payPage.clickContinueButton();
-        payPage.getErrorInvalidFormat();
+        payPage.findCardMonthError("Неверный формат");
     }
 
     @Test
@@ -192,7 +194,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithTwoZeroInYear() {
         payPage.getEnterCard(DataHelper.getInvalidYear("00"));
         payPage.clickContinueButton();
-        payPage.getErrorExpiredDeadline();
+        payPage.findCardYearError("Истёк срок действия карты");
     }
 
     @Test
@@ -200,7 +202,7 @@ public class PayCardTest {
     public void shouldInputLastYear() {
         payPage.getEnterCard(DataHelper.getLastYear());
         payPage.clickContinueButton();
-        payPage.getErrorExpiredDeadline();
+        payPage.findCardYearError("Истёк срок действия карты");
     }
 
     @Test
@@ -208,7 +210,7 @@ public class PayCardTest {
     public void shouldInputYearGreaterThanMax() {
         payPage.getEnterCard(DataHelper.getEnterYearOverMax());
         payPage.clickContinueButton();
-        payPage.getErrorIncorrectDeadline();
+        payPage.findCardYearError("Неверно указан срок действия карты");
     }
 
     @ParameterizedTest
@@ -223,7 +225,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithIncorrectYear(String year) {
         payPage.getEnterCard(DataHelper.getInvalidYear(year));
         payPage.clickContinueButton();
-        payPage.getErrorInvalidFormat();
+        payPage.findCardYearError("Неверный формат");
     }
 
     @Test
@@ -240,7 +242,7 @@ public class PayCardTest {
         var holder = "ab";
         payPage.getEnterCard(DataHelper.getInvalidHolder(holder));
         payPage.clickContinueButton();
-        payPage.getErrorMinimumLength();
+        payPage.findCardHolderError("Длина не может быть меньше 3 символов");
     }
 
     @Test
@@ -249,7 +251,7 @@ public class PayCardTest {
         var holder = "Sammiele Walter-Skott";
         payPage.getEnterCard(DataHelper.getInvalidHolder(holder));
         payPage.clickContinueButton();
-        payPage.getErrorMaximumLength();
+        payPage.findCardHolderError("Длина не может быть больше 20 символов");
     }
 
     @ParameterizedTest
@@ -263,7 +265,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithIncorrectHolder(String holder) {
         payPage.getEnterCard(DataHelper.getInvalidHolder(holder));
         payPage.clickContinueButton();
-        payPage.getErrorInvalidFormat();
+        payPage.findCardHolderError("Неверный формат");
     }
 
     @Test
@@ -271,8 +273,8 @@ public class PayCardTest {
     public void shouldEnterOnlySpaces() {
         payPage.getEnterCard(DataHelper.getInvalidHolder("               "));
         payPage.clickContinueButton();
-        payPage.getCardHolderValue("               ");
-        payPage.getErrorEmptyForm();
+        payPage.getCardHolderValue("");
+        payPage.findCardHolderError("Поле обязательно для заполнения");
     }
 
     // Поле "CVC/CVV"
@@ -288,7 +290,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithIncorrectCVC(String cvc) {
         payPage.getEnterCard(DataHelper.getInvalidCVC(cvc));
         payPage.clickContinueButton();
-        payPage.getErrorInvalidFormat();
+        payPage.findCardCVCError("Неверный формат");
     }
 
     @Test
