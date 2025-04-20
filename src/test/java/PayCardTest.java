@@ -81,7 +81,6 @@ public class PayCardTest {
         payPage.getCardNumberValue("");
         payPage.findCardNumberError("Поле обязательно для заполнения");
 
-//        payPage.getErrorEmptyForm();
     }
 
     @Test

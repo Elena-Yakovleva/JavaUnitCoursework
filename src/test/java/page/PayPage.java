@@ -73,12 +73,12 @@ public class PayPage {
     }
 
     // Проверка пустой формы
-    public void submitFormWithEmptyFields() {
-        fieldCardNumber.shouldBe(Condition.empty);
-        fieldCardMonth.shouldBe(Condition.empty);
-        fieldCardYear.shouldBe(Condition.empty);
-        fieldCardHolder.shouldBe(Condition.empty);
-        fieldCardCVC.shouldBe(Condition.empty);
+    public void errorsFromSubmitFormWithEmptyFields() {
+        errorFieldCardNumber.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        errorFieldCardMonth.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        errorFieldCardYear.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        errorFieldCardHolder.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        errorFieldCardCVC.shouldHave(Condition.text("Поле обязательно для заполнения"));
     }
 
 
