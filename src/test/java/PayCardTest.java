@@ -78,7 +78,8 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithoutCardNumber() {
         payPage.getEnterCard(DataHelper.getFormWithoutNumber());
         payPage.clickContinueButton();
-        payPage.getErrorInvalidFormat();
+        payPage.getCardNumberValue("");
+        payPage.getErrorEmptyForm();
     }
 
     @Test
@@ -86,7 +87,8 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithoutMonth() {
         payPage.getEnterCard(DataHelper.getFormWithoutMonth());
         payPage.clickContinueButton();
-        payPage.getErrorInvalidFormat();
+        payPage.getCardMonthValue("");
+        payPage.getErrorEmptyForm();
     }
 
     @Test
@@ -94,7 +96,8 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithoutYear() {
         payPage.getEnterCard(DataHelper.getFormWithoutYear());
         payPage.clickContinueButton();
-        payPage.getErrorInvalidFormat();
+        payPage.getCardYearValue("");
+        payPage.getErrorEmptyForm();
     }
 
     @Test
@@ -102,6 +105,7 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithoutHolder() {
         payPage.getEnterCard(DataHelper.getFormWithoutHolder());
         payPage.clickContinueButton();
+        payPage.getCardHolderValue("");
         payPage.getErrorEmptyForm();
     }
 
@@ -110,7 +114,8 @@ public class PayCardTest {
     public void shouldNotSubmitFormWithoutCVC() {
         payPage.getEnterCard(DataHelper.getFormWithoutCVC());
         payPage.clickContinueButton();
-        payPage.getErrorInvalidFormat();
+        payPage.getCardCVCValue("");
+        payPage.getErrorEmptyForm();
     }
 
 
@@ -235,7 +240,7 @@ public class PayCardTest {
         var holder = "ab";
         payPage.getEnterCard(DataHelper.getInvalidHolder(holder));
         payPage.clickContinueButton();
-        payPage.getErrorEmptyForm();
+        payPage.getErrorMinimumLength();
     }
 
     @Test

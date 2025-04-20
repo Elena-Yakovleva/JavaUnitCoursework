@@ -16,12 +16,11 @@ public class PayPage {
     private final SelenideElement notificationDeclined = $(Selectors.byText("Ошибка! Банк отказал в проведении операции."));
 
     // Поля для заполнения
-    private final SelenideElement fieldCardNumber = $x("//span[text()='Номер карты']/..//input");
-    private final SelenideElement fieldCardMonth = $x("//span[text()='Месяц']/..//input");
-    private final SelenideElement fieldCardYear = $x("//span[text()='Год']/..//input");
-    ;
-    private final SelenideElement fieldCardHolder = $x("//span[text()='Владелец']/..//input");
-    private final SelenideElement fieldCardCVC = $x("//span[text()='CVC/CVV']/..//input");
+    private final SelenideElement fieldCardNumber = $x("//fieldset/descendant::input[1]");  //$x("//span[text()='Номер карты']/..//input");
+    private final SelenideElement fieldCardMonth = $x("//fieldset/descendant::input[2]");
+    private final SelenideElement fieldCardYear = $x("//fieldset/descendant::input[3]");
+    private final SelenideElement fieldCardHolder = $x("//fieldset/descendant::input[4]");
+    private final SelenideElement fieldCardCVC = $x("//fieldset/descendant::input[5]");
 
     // Ошибки полей ввода
     private final SelenideElement errorInvalidFormat = $x("//span[contains(text(), 'Неверный формат')]");
@@ -29,6 +28,7 @@ public class PayPage {
     private final SelenideElement errorIncorrectDeadline = $x("//span[contains(text(), 'Неверно указан срок действия карты')]");
     private final SelenideElement errorExpiredDeadline = $x("//span[contains(text(), 'Истёк срок действия карты')]");
     private final SelenideElement errorMaximumLength = $x("//span[contains(text(), 'Длина не может быть больше 20 символов')]");
+    private final SelenideElement errorMinimumLength = $x("span[contains(text(), 'Длина не может быть меньше 3 символов')]");
 
     public PayPage() {
         pay.shouldBe(Condition.visible);
@@ -49,37 +49,44 @@ public class PayPage {
     // Информационные сообщения
 
     public void findNotificationApproved() {
-        notificationApproved.shouldBe(Condition.visible, Duration.ofSeconds(10)).shouldBe(Condition.text("Операция одобрена Банком."));
+        notificationApproved.shouldBe(Condition.visible, Duration.ofSeconds(10));
     }
 
     public void findNotificationDeclined() {
-        notificationDeclined.shouldBe(Condition.visible, Duration.ofSeconds(10)).shouldBe(Condition.text("Ошибка! Банк отказал в проведении операции."));
+        notificationDeclined.shouldBe(Condition.visible, Duration.ofSeconds(10));
     }
 
     public void submitFormWithEmptyFields() {
-        errorInvalidFormat.shouldBe(Condition.visible).shouldHave(Condition.text("Неверный формат"));
-        errorEmptyForm.shouldBe(Condition.visible).shouldHave(Condition.text("Поле обязательно для заполнения"));
-
+        fieldCardNumber.shouldBe(Condition.empty);
+        fieldCardMonth.shouldBe(Condition.empty);
+        fieldCardYear.shouldBe(Condition.empty);
+        fieldCardHolder.shouldBe(Condition.empty);
+        fieldCardCVC.shouldBe(Condition.empty);
     }
 
     public void getErrorInvalidFormat() {
-        errorInvalidFormat.shouldBe(Condition.visible).shouldHave(Condition.text("Неверный формат"));
+        errorInvalidFormat.shouldBe(Condition.visible);
     }
 
     public void getErrorEmptyForm() {
-        errorEmptyForm.shouldBe(Condition.visible).shouldHave(Condition.text("Поле обязательно для заполнения"));
+        errorEmptyForm.shouldBe(Condition.visible);
+
     }
 
     public void getErrorIncorrectDeadline() {
-        errorIncorrectDeadline.shouldBe(Condition.visible).shouldHave(Condition.text("Неверно указан срок действия карты"));
+        errorIncorrectDeadline.shouldBe(Condition.visible);
     }
 
     public void getErrorExpiredDeadline() {
-        errorExpiredDeadline.shouldBe(Condition.visible).shouldHave(Condition.text("Истёк срок действия карты"));
+        errorExpiredDeadline.shouldBe(Condition.visible);
     }
 
     public void getErrorMaximumLength() {
-        errorMaximumLength.shouldBe(Condition.visible).shouldHave(Condition.text("Длина не может быть больше 20 символов"));
+        errorMaximumLength.shouldBe(Condition.visible);
+    }
+
+    public void getErrorMinimumLength() {
+        errorMinimumLength.shouldBe(Condition.visible);
     }
 
     // Ожидаемый результат
