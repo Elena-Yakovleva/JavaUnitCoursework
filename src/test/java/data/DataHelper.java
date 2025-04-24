@@ -99,7 +99,7 @@ public class DataHelper {
     }
 
     public static CardDetails getInvalidMonth(String month) {
-        return new CardDetails(approvedCard(), month, enterYear(0), generateNameHolder(), generateCVC());
+        return new CardDetails(approvedCard(), month, enterYear(1), generateNameHolder(), generateCVC());
     }
 
     public static CardDetails getLastMonth() {

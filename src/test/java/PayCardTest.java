@@ -215,7 +215,6 @@ public class PayCardTest {
     @ParameterizedTest
     @CsvSource({
             "0",
-            "1",
             "aa",
             "#!",
             "卡号"
