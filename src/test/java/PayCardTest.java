@@ -70,7 +70,7 @@ public class PayCardTest {
     @DisplayName("Тест 4. Отправка пустой формы")
     public void shouldNotSentEmptyForm() {
         payPage.clickContinueButton();
-        payPage.submitFormWithEmptyFields();
+        payPage.errorsFromSubmitFormWithEmptyFields();
     }
 
     @Test
@@ -154,7 +154,7 @@ public class PayCardTest {
     public void shouldInvalidMonthBoundaryValue(String month) {
         payPage.getEnterCard(DataHelper.getInvalidMonth(month));
         payPage.clickContinueButton();
-        payPage.findCardMonthError("Неверно указан срок действия карты");
+        payPage.findCardMonthError("Неверный формат");
     }
 
     @Test
