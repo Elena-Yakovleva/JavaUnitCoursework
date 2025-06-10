@@ -73,3 +73,7 @@ java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar artifacts
 ```
 docker compose down
 ```
+
+## Сертификат
+
+![img_1.png](documents/img_1.png)
